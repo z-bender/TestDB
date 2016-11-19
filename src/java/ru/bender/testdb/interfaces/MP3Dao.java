@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface MP3Dao {
 
-    void insert(MP3 mp3);
+    int insert(MP3 mp3);
 
     void delete(MP3 mp3);
+
+    void deleteByID(int ID);
+
+    void insertMP3List(List<MP3> mp3s);
 
     MP3 getMP3ById(int id);
 

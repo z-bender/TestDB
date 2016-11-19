@@ -21,7 +21,7 @@ public class MP3 {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     public String getAuthor() {
@@ -29,6 +29,11 @@ public class MP3 {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = author.trim();
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " - " + author;
     }
 }
