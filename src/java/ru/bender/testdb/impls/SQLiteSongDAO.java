@@ -41,11 +41,16 @@ public class SQLiteSongDAO implements SongDao {
     @Override
     public int insert(SongImpl song) {
         int id;
-        int id_author;
+        int id_author = song.getAuthor().getID();
+
+        if (id_author == 0) {
+            id_author = authorDAO.getAuthorIdByName(song.getAuthorName());
+            song.getAuthor().setID(id_author);
+        }
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", song.getName());
-        params.addValue("id_author", song.getAuthor());
+        params.addValue("id_author", id_author);
         id = insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
         song.setID(id);
         return id;
