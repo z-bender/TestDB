@@ -20,14 +20,14 @@ import java.util.List;
 public class SQLiteSongDAO implements SongDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert insertMP3;
+    private SimpleJdbcInsert insertSong;
     private DataSource dataSource;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
 
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        this.insertMP3 = new SimpleJdbcInsert(dataSource).withTableName("song").usingColumns("name", "id_author").usingGeneratedKeyColumns("id");
+        this.insertSong = new SimpleJdbcInsert(dataSource).withTableName("song").usingColumns("name", "id_author").usingGeneratedKeyColumns("id");
         this.dataSource = dataSource;
     }
 
@@ -36,9 +36,9 @@ public class SQLiteSongDAO implements SongDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", song.getName());
         params.addValue("author", song.getAuthor());
-        song.setID(insertMP3.executeAndReturnKeyHolder(params).getKey().intValue());
+        song.setID(insertSong.executeAndReturnKeyHolder(params).getKey().intValue());
         return song.getID();
-//        return insertMP3.executeAndReturnKeyHolder(params).getKey().intValue();
+//        return insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
     }
 
     @Override
