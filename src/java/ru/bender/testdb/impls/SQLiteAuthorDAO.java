@@ -11,7 +11,7 @@ import ru.bender.testdb.interfaces.AuthorDAO;
 
 import javax.sql.DataSource;
 
-@Component
+@Component("authorDAO")
 public class SQLiteAuthorDAO implements AuthorDAO {
 
     NamedParameterJdbcTemplate jdbcTemplate;

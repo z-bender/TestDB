@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component("sqliteDAO")
+@Component("songDAO")
 public class SQLiteSongDAO implements SongDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;

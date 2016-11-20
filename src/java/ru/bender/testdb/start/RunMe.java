@@ -2,12 +2,13 @@ package ru.bender.testdb.start;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.bender.testdb.impls.SQLiteAuthorDAO;
 import ru.bender.testdb.impls.SQLiteSongDAO;
+import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.SongDao;
 import ru.bender.testdb.objects.SongImpl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RunMe {
@@ -18,14 +19,21 @@ public class RunMe {
 //        mp3.setName("gh");
 //        mp3.setAuthor("dh");
 
-        SongDao songDao = (SQLiteSongDAO) context.getBean("sqliteDAO");
+        SongDao songDao = (SQLiteSongDAO) context.getBean("songDAO");
+        AuthorDAO authorDao = (SQLiteAuthorDAO) context.getBean("authorDAO");
 //        songDao.delete(mp3);
 //        int id = songDao.insert(mp3);
 //        System.out.println(id);
 //        mp3 = songDao.getMP3ById(3);
 //        System.out.println(songDao.getMP3ListByName("Rape me"));
 //        songDao.deleteByID(5);
-        System.out.println(Arrays.toString(songDao.insertMP3List(generateMP3List(4))));
+//        System.out.println(Arrays.toString(songDao.insertMP3List(generateMP3List(4))));
+
+//        authorDao.insert(new AuthorImpl("Metallica"));
+//        authorDao.insert(new AuthorImpl("Nirvana"));
+//        authorDao.insert(new AuthorImpl("Red Hot Chilly Peppers"));
+
+        System.out.println("Its END...");
     }
 
     public static SongImpl generateMP3(){
