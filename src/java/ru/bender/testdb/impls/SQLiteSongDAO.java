@@ -44,7 +44,7 @@ public class SQLiteSongDAO implements SongDao {
         int id_author = song.getAuthor().getID();
 
         if (id_author == 0) {
-            id_author = authorDAO.getAuthorIdByName(song.getAuthorName());
+            id_author = authorDAO.getIdOrAddIfAuthorNotFound(song.getAuthorName());
             song.getAuthor().setID(id_author);
         }
 

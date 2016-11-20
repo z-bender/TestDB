@@ -35,7 +35,6 @@ public class RunMe {
 
         songDao.insert(generateMP3());
         songDao.insert(generateMP3());
-        songDao.insert(generateMP3());
         System.out.println("Its END...");
     }
 
