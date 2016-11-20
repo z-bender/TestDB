@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.bender.testdb.interfaces.MP3Dao;
-import ru.bender.testdb.objects.Song;
+import ru.bender.testdb.objects.SongImpl;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -32,16 +32,17 @@ public class SQLiteDAO implements MP3Dao{
     }
 
     @Override
-    public int insert(Song song) {
+    public int insert(SongImpl song) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", song.getName());
         params.addValue("author", song.getAuthor());
-        return insertMP3.executeAndReturnKeyHolder(params).getKey().intValue();
+        song.setID(insertMP3.executeAndReturnKeyHolder(params).getKey().intValue());
+        return song.getID();
 //        return insertMP3.executeAndReturnKeyHolder(params).getKey().intValue();
     }
 
     @Override
-    public void delete(Song song) {
+    public void delete(SongImpl song) {
         String sql = "DELETE FROM song WHERE name = :name AND  author = :author;";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("name", song.getName());
@@ -56,7 +57,7 @@ public class SQLiteDAO implements MP3Dao{
     }
 
     @Override
-    public int[] insertMP3List(List<Song> songs) {
+    public int[] insertMP3List(List<SongImpl> songs) {
         String sql = "INSERT INTO song (name, author) VALUES (:name, :author)";
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(songs.toArray());
         int[] updateCounts = jdbcTemplate.batchUpdate(sql, batch);
@@ -65,37 +66,38 @@ public class SQLiteDAO implements MP3Dao{
 
 
     @Override
-    public Song getMP3ById(int id) {
+    public SongImpl getMP3ById(int id) {
 //        String sql = "SELECT id, name, author FROM song WHERE id = ?;";
-//        Song mp3 = (Song)jdbcTemplate.queryForObject(sql, new Object[]{id}, new MP3RowMapper());
+//        SongImpl mp3 = (SongImpl)jdbcTemplate.queryForObject(sql, new Object[]{id}, new MP3RowMapper());
         return null;
     }
 
     @Override
-    public List<Song> getMP3ListByName(String name) {
+    public List<SongImpl> getMP3ListByName(String name) {
         String sql = "SELECT id, name, author FROM song WHERE name = :name;";
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("name", name);
-        List<Song> songs = jdbcTemplate.query(sql, parameters, new MP3RowMapper());
+        List<SongImpl> songs = jdbcTemplate.query(sql, parameters, new MP3RowMapper());
         return songs;
     }
 
     @Override
-    public List<Song> getMP3ListByAuthor(String author) {
+    public List<SongImpl> getMP3ListByAuthor(String author) {
 //        String sql = "SELECT id, name, author FROM song WHERE author = ?;";
-//        List<Song> mp3s = jdbcTemplate.query(sql, new Object[]{author}, new MP3RowMapper());
-//        List<Song> mp3s = jdbcTemplate.query(sql, new Object[]{author}, new MP3RowMapper());
+//        List<SongImpl> mp3s = jdbcTemplate.query(sql, new Object[]{author}, new MP3RowMapper());
+//        List<SongImpl> mp3s = jdbcTemplate.query(sql, new Object[]{author}, new MP3RowMapper());
         return null;
     }
 
-    private static final class MP3RowMapper implements RowMapper<Song> {
+    private static final class MP3RowMapper implements RowMapper<SongImpl> {
         @Override
-        public Song mapRow(ResultSet resultSet, int i) throws SQLException {
-            Song song = new Song();
-            song.setID(resultSet.getInt("id"));
-            song.setName(resultSet.getString("name"));
-            song.setAuthor(resultSet.getString("author"));
-            return song;
+        public SongImpl mapRow(ResultSet resultSet, int i) throws SQLException {
+//            SongImpl song = new SongImpl();
+//            song.setID(resultSet.getInt("id"));
+//            song.setName(resultSet.getString("name"));
+//            song.setAuthor(resultSet.getString("author"));
+//            return song;
+            return null;
         }
     }
 }
