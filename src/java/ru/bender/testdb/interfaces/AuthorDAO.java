@@ -13,6 +13,6 @@ public interface AuthorDAO {
      */
     int getAuthorIdByName(String name);
 
-    int getAuthorIdOrAdd(String name);
+    int getIdOrAddIfAuthorNotFound(String name);
 
 }

@@ -55,7 +55,7 @@ public class SQLiteAuthorDAO implements AuthorDAO {
     }
 
     @Override
-    public int getAuthorIdOrAdd(String name) {
+    public int getIdOrAddIfAuthorNotFound(String name) {
         int id;
         id = getAuthorIdByName(name);
         if (id == -1) {
