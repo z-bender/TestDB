@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import ru.bender.testdb.interfaces.MP3Dao;
+import ru.bender.testdb.interfaces.SongDao;
 import ru.bender.testdb.objects.SongImpl;
 
 import javax.sql.DataSource;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component("sqliteDAO")
-public class SQLiteDAO implements MP3Dao{
+public class SQLiteSongDAO implements SongDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertMP3;

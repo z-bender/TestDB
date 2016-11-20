@@ -2,8 +2,8 @@ package ru.bender.testdb.start;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.bender.testdb.impls.SQLiteDAO;
-import ru.bender.testdb.interfaces.MP3Dao;
+import ru.bender.testdb.impls.SQLiteSongDAO;
+import ru.bender.testdb.interfaces.SongDao;
 import ru.bender.testdb.objects.SongImpl;
 
 import java.util.ArrayList;
@@ -18,14 +18,14 @@ public class RunMe {
 //        mp3.setName("gh");
 //        mp3.setAuthor("dh");
 
-        MP3Dao mp3Dao = (SQLiteDAO) context.getBean("sqliteDAO");
-//        mp3Dao.delete(mp3);
-//        int id = mp3Dao.insert(mp3);
+        SongDao songDao = (SQLiteSongDAO) context.getBean("sqliteDAO");
+//        songDao.delete(mp3);
+//        int id = songDao.insert(mp3);
 //        System.out.println(id);
-//        mp3 = mp3Dao.getMP3ById(3);
-//        System.out.println(mp3Dao.getMP3ListByName("Rape me"));
-//        mp3Dao.deleteByID(5);
-        System.out.println(Arrays.toString(mp3Dao.insertMP3List(generateMP3List(4))));
+//        mp3 = songDao.getMP3ById(3);
+//        System.out.println(songDao.getMP3ListByName("Rape me"));
+//        songDao.deleteByID(5);
+        System.out.println(Arrays.toString(songDao.insertMP3List(generateMP3List(4))));
     }
 
     public static SongImpl generateMP3(){

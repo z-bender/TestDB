@@ -4,7 +4,7 @@ import ru.bender.testdb.objects.SongImpl;
 
 import java.util.List;
 
-public interface MP3Dao {
+public interface SongDao {
 
     int insert(SongImpl song);
 
