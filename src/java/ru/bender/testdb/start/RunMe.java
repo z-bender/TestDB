@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.bender.testdb.impls.SQLiteDAO;
 import ru.bender.testdb.interfaces.MP3Dao;
-import ru.bender.testdb.objects.MP3;
+import ru.bender.testdb.objects.Song;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,19 +28,19 @@ public class RunMe {
         System.out.println(Arrays.toString(mp3Dao.insertMP3List(generateMP3List(4))));
     }
 
-    public static MP3 generateMP3(){
-        MP3 mp3 = new MP3();
-        mp3.setName("name" + (int)(Math.random() * 10));
-        mp3.setAuthor("author" + (int)(Math.random() * 10));
-        return mp3;
+    public static Song generateMP3(){
+        Song song = new Song();
+        song.setName("name" + (int)(Math.random() * 10));
+        song.setAuthor("author" + (int)(Math.random() * 10));
+        return song;
     }
 
-    public static List<MP3> generateMP3List(int count) {
-        List<MP3> mp3s = new ArrayList<>();
+    public static List<Song> generateMP3List(int count) {
+        List<Song> songs = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            mp3s.add(generateMP3());
+            songs.add(generateMP3());
         }
-        return mp3s;
+        return songs;
     }
 
 }

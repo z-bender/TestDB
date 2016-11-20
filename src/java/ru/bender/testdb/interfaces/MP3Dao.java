@@ -1,23 +1,23 @@
 package ru.bender.testdb.interfaces;
 
-import ru.bender.testdb.objects.MP3;
+import ru.bender.testdb.objects.Song;
 
 import java.util.List;
 
 public interface MP3Dao {
 
-    int insert(MP3 mp3);
+    int insert(Song song);
 
-    void delete(MP3 mp3);
+    void delete(Song song);
 
     void deleteByID(int ID);
 
-    int[] insertMP3List(List<MP3> mp3s);
+    int[] insertMP3List(List<Song> songs);
 
-    MP3 getMP3ById(int id);
+    Song getMP3ById(int id);
 
-    List<MP3> getMP3ListByName(String name);
+    List<Song> getMP3ListByName(String name);
 
-    List<MP3> getMP3ListByAuthor(String author);
+    List<Song> getMP3ListByAuthor(String author);
 
 }

@@ -1,6 +1,6 @@
 package ru.bender.testdb.objects;
 
-public class MP3 {
+public class Song {
 
     private int ID;
 
