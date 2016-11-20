@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.bender.testdb.interfaces.MP3Dao;
 import ru.bender.testdb.objects.MP3;
@@ -19,22 +20,24 @@ import java.util.List;
 public class SQLiteDAO implements MP3Dao{
 
     private NamedParameterJdbcTemplate jdbcTemplate;
+    private SimpleJdbcInsert insertMP3;
+    private DataSource dataSource;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
+
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.insertMP3 = new SimpleJdbcInsert(dataSource).withTableName("music").usingColumns("name", "author").usingGeneratedKeyColumns("id");
+        this.dataSource = dataSource;
     }
 
     @Override
     public int insert(MP3 mp3) {
-        String sql = "insert into music (name, author) values (:name, :author)";
-
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", mp3.getName());
         params.addValue("author", mp3.getAuthor());
-        KeyHolder idHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(sql, params, idHolder);
-        return idHolder.getKey().intValue();
+        return insertMP3.executeAndReturnKeyHolder(params).getKey().intValue();
+//        return insertMP3.executeAndReturnKeyHolder(params).getKey().intValue();
     }
 
     @Override
@@ -53,8 +56,11 @@ public class SQLiteDAO implements MP3Dao{
     }
 
     @Override
-    public void insertMP3List(List<MP3> mp3s) {
-
+    public int[] insertMP3List(List<MP3> mp3s) {
+        String sql = "INSERT INTO music (name, author) VALUES (:name, :author)";
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(mp3s.toArray());
+        int[] updateCounts = jdbcTemplate.batchUpdate(sql, batch);
+        return updateCounts;
     }
 
 
