@@ -13,10 +13,9 @@ import javax.sql.DataSource;
 
 @Component("authorDAO")
 public class SQLiteAuthorDAO implements AuthorDAO {
-
     NamedParameterJdbcTemplate jdbcTemplate;
-    SimpleJdbcInsert authorInsert;
 
+    SimpleJdbcInsert authorInsert;
     @Autowired
     public void setDataSource(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -36,15 +35,31 @@ public class SQLiteAuthorDAO implements AuthorDAO {
     }
 
     @Override
+    public int insert(String name) {
+        int id = authorInsert.executeAndReturnKeyHolder(getMapSqlParameterSource(name))
+                .getKey()
+                .intValue();
+        return id;
+    }
+
+    @Override
     public int getAuthorIdByName(String name) {
         int id;
         String sql = "SELECT id FROM author WHERE name = :name";
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name", name);
         try {
-            id = jdbcTemplate.queryForObject(sql, params, Integer.class);
+            id = jdbcTemplate.queryForObject(sql, getMapSqlParameterSource(name), Integer.class);
         } catch (EmptyResultDataAccessException e) {
             return -1;
+        }
+        return id;
+    }
+
+    @Override
+    public int getAuthorIdOrAdd(String name) {
+        int id;
+        id = getAuthorIdByName(name);
+        if (id == -1) {
+            id = insert(name);
         }
         return id;
     }
@@ -53,6 +68,12 @@ public class SQLiteAuthorDAO implements AuthorDAO {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", author.getID());
         params.addValue("name", author.getName());
+        return params;
+    }
+
+    private MapSqlParameterSource getMapSqlParameterSource(String name) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", name);
         return params;
     }
 }

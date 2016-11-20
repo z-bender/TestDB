@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.SongDao;
 import ru.bender.testdb.objects.SongImpl;
 
@@ -22,6 +23,12 @@ public class SQLiteSongDAO implements SongDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertSong;
     private DataSource dataSource;
+    private AuthorDAO authorDAO;
+
+    @Autowired
+    public void setAuthorDAO(AuthorDAO authorDAO) {
+        this.authorDAO = authorDAO;
+    }
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -33,11 +40,15 @@ public class SQLiteSongDAO implements SongDao {
 
     @Override
     public int insert(SongImpl song) {
+        int id;
+        int id_author;
+
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", song.getName());
-        params.addValue("author", song.getAuthor());
-        song.setID(insertSong.executeAndReturnKeyHolder(params).getKey().intValue());
-        return song.getID();
+        params.addValue("id_author", song.getAuthor());
+        id = insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
+        song.setID(id);
+        return id;
 //        return insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
     }
 
