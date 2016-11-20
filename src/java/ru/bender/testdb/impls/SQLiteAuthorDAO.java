@@ -1,6 +1,7 @@
 package ru.bender.testdb.impls;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -36,7 +37,16 @@ public class SQLiteAuthorDAO implements AuthorDAO {
 
     @Override
     public int getAuthorIdByName(String name) {
-        return 0;
+        int id;
+        String sql = "SELECT id FROM author WHERE name = :name";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", name);
+        try {
+            id = jdbcTemplate.queryForObject(sql, params, Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            return -1;
+        }
+        return id;
     }
 
     private MapSqlParameterSource getMapSqlParameterSource(Author author) {
