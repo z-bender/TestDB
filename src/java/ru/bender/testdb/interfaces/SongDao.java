@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface SongDao {
 
-    int insert(SongImpl song);
+    int insert(Song song);
 
-    void delete(SongImpl song);
+    void delete(Song song);
 
     void deleteByID(int ID);
 
-    int[] insertMP3List(List<SongImpl> songs);
+    int insertSongList(List<SongImpl> songs);
 
     SongImpl getMP3ById(int id);
 

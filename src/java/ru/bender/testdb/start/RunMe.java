@@ -27,7 +27,7 @@ public class RunMe {
 //        mp3 = songDao.getMP3ById(3);
 //        System.out.println(songDao.getMP3ListByName("Rape me"));
 //        songDao.deleteByID(5);
-//        System.out.println(Arrays.toString(songDao.insertMP3List(generateMP3List(4))));
+//        System.out.println(Arrays.toString(songDao.insertSongList(generateMP3List(4))));
 
 //        authorDao.insert(new AuthorImpl("Metallica"));
 //        authorDao.insert(new AuthorImpl("Nirvana"));

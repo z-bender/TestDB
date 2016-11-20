@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.bender.testdb.interfaces.AuthorDAO;
+import ru.bender.testdb.interfaces.Song;
 import ru.bender.testdb.interfaces.SongDao;
 import ru.bender.testdb.objects.SongImpl;
 
@@ -39,7 +38,7 @@ public class SQLiteSongDAO implements SongDao {
     }
 
     @Override
-    public int insert(SongImpl song) {
+    public int insert(Song song) {
         int id;
         int id_author = song.getAuthor().getID();
 
@@ -58,7 +57,7 @@ public class SQLiteSongDAO implements SongDao {
     }
 
     @Override
-    public void delete(SongImpl song) {
+    public void delete(Song song) {
         String sql = "DELETE FROM song WHERE name = :name AND  author = :author;";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("name", song.getName());
@@ -73,11 +72,12 @@ public class SQLiteSongDAO implements SongDao {
     }
 
     @Override
-    public int[] insertMP3List(List<SongImpl> songs) {
-        String sql = "INSERT INTO song (name, author) VALUES (:name, :author)";
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(songs.toArray());
-        int[] updateCounts = jdbcTemplate.batchUpdate(sql, batch);
-        return updateCounts;
+    public int insertSongList(List<SongImpl> songs) {
+//        String sql = "INSERT INTO song (name, author) VALUES (:name, :author)";
+//        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(songs.toArray());
+//        int[] updateCounts = jdbcTemplate.batchUpdate(sql, batch);
+        songs.forEach(song -> insert(song));
+        return songs.size();
     }
 
 
