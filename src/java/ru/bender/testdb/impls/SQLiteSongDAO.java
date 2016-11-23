@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.Song;
 import ru.bender.testdb.interfaces.SongDao;
@@ -38,6 +39,7 @@ public class SQLiteSongDAO implements SongDao {
     }
 
     @Override
+    @Transactional
     public int insert(Song song) {
         int id;
         int id_author = song.getAuthor().getID();

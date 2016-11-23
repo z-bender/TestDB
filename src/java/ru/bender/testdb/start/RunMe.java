@@ -34,7 +34,6 @@ public class RunMe {
 //        authorDao.insert(new AuthorImpl("Red Hot Chilly Peppers"));
 
         songDao.insert(generateMP3());
-        songDao.insert(generateMP3());
         System.out.println("Its END...");
     }
 
