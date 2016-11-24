@@ -1,7 +1,7 @@
 package ru.bender.testdb.start;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.bender.testdb.impls.SQLiteAuthorDAO;
 import ru.bender.testdb.impls.SQLiteSongDAO;
 import ru.bender.testdb.interfaces.AuthorDAO;
@@ -13,7 +13,8 @@ import java.util.List;
 
 public class RunMe {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("app-config.xml");
+//        ApplicationContext context = new ClassPathXmlApplicationContext("app-config.xml");
+        ApplicationContext context = new AnnotationConfigApplicationContext(DBConfig.class);
 
 
 //        mp3.setName("gh");

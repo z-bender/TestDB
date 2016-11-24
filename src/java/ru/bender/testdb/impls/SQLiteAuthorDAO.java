@@ -6,6 +6,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ru.bender.testdb.interfaces.Author;
 import ru.bender.testdb.interfaces.AuthorDAO;
 
@@ -35,7 +38,9 @@ public class SQLiteAuthorDAO implements AuthorDAO {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int insert(String name) {
+        System.out.println("aut_insert - " + TransactionSynchronizationManager.isActualTransactionActive());
         int id = authorInsert.executeAndReturnKeyHolder(getMapSqlParameterSource(name))
                 .getKey()
                 .intValue();

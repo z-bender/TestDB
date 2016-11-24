@@ -6,7 +6,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.Song;
 import ru.bender.testdb.interfaces.SongDao;
@@ -39,8 +41,9 @@ public class SQLiteSongDAO implements SongDao {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public int insert(Song song) {
+        System.out.println("song_insert - " + TransactionSynchronizationManager.isActualTransactionActive());
         int id;
         int id_author = song.getAuthor().getID();
 
@@ -55,7 +58,6 @@ public class SQLiteSongDAO implements SongDao {
         id = insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
         song.setID(id);
         return id;
-//        return insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
     }
 
     @Override
