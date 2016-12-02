@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
+import ru.bender.testdb.annotations.testpointcut;
 import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.Song;
 import ru.bender.testdb.interfaces.SongDao;
@@ -42,8 +42,9 @@ public class SQLiteSongDAO implements SongDao {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @testpointcut
     public int insert(Song song) {
-        System.out.println("song_insert - " + TransactionSynchronizationManager.isActualTransactionActive());
+//        System.out.println("song_insert - " + TransactionSynchronizationManager.isActualTransactionActive());
         int id;
         int id_author = song.getAuthor().getID();
 
@@ -57,6 +58,7 @@ public class SQLiteSongDAO implements SongDao {
         params.addValue("id_author", id_author);
         id = insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
         song.setID(id);
+//        authorDAO.insert("teststss1");
         return id;
     }
 

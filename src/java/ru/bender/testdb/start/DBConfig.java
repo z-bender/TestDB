@@ -1,20 +1,20 @@
 package ru.bender.testdb.start;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import ru.bender.testdb.impls.SQLiteAuthorDAO;
+import ru.bender.testdb.interfaces.AuthorDAO;
 
 @Configuration
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement(proxyTargetClass = false)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @PropertySource(value = "sqlite.properties")
-@ComponentScan(basePackages = "ru.bender.testdb.impls")
+@ComponentScan(basePackages = "ru.bender.testdb")
 public class DBConfig {
 
     @Value("${sqlite.dburl}")
@@ -37,6 +37,11 @@ public class DBConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public AuthorDAO authorDAO() {
+        return new SQLiteAuthorDAO();
     }
 
 }
