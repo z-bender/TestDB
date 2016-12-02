@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface SongDao {
 
+    void testAOP();
+
     int insert(Song song);
 
     void delete(Song song);

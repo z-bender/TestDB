@@ -35,14 +35,15 @@ public class RunMe {
 //        authorDao.insert(new AuthorImpl("Red Hot Chilly Peppers"));
 
         songDao.insert(generateMP3());
-//        authorDao.insert("test1");
+//        authorDao.insert("from_runme");
+        songDao.testAOP();
         System.out.println("Its END...");
     }
 
     public static SongImpl generateMP3(){
         SongImpl song = new SongImpl(
-                "name" + (int)(Math.random() * 10),
-                "author" + (int)(Math.random() * 10)
+                "name" + (int)(Math.random() * 100),
+                "author" + (int)(Math.random() * 100)
         );
         return song;
     }

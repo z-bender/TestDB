@@ -12,7 +12,7 @@ public class TransactionalAspect {
 
 //    @Pointcut("execution(* *.insert(..))")
 //    @Pointcut("target(public int ru.bender.testdb.interfaces.AuthorDAO.insert(..))")
-    @Pointcut("@annotation(ru.bender.testdb.annotations.testpointcut)")
+    @Pointcut("@annotation(ru.bender.testdb.annotations.Testpointcut)")
     private void justPointCut() {
 
     }

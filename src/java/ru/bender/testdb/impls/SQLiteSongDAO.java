@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bender.testdb.annotations.testpointcut;
+import ru.bender.testdb.annotations.Testpointcut;
 import ru.bender.testdb.interfaces.AuthorDAO;
 import ru.bender.testdb.interfaces.Song;
 import ru.bender.testdb.interfaces.SongDao;
@@ -26,6 +26,14 @@ public class SQLiteSongDAO implements SongDao {
     private SimpleJdbcInsert insertSong;
     private DataSource dataSource;
     private AuthorDAO authorDAO;
+    private SQLiteSongDAO thisDAO;
+
+
+/*    @Autowired
+    @Qualifier("songDAO")
+    public void setThisDAO(SQLiteSongDAO thisDAO) {
+        this.thisDAO = thisDAO;
+    }*/
 
     @Autowired
     public void setAuthorDAO(AuthorDAO authorDAO) {
@@ -42,7 +50,7 @@ public class SQLiteSongDAO implements SongDao {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    @testpointcut
+//    @Testpointcut
     public int insert(Song song) {
 //        System.out.println("song_insert - " + TransactionSynchronizationManager.isActualTransactionActive());
         int id;
@@ -58,8 +66,14 @@ public class SQLiteSongDAO implements SongDao {
         params.addValue("id_author", id_author);
         id = insertSong.executeAndReturnKeyHolder(params).getKey().intValue();
         song.setID(id);
-//        authorDAO.insert("teststss1");
+        testAOP();
+//        authorDAO.insert("test" + (Math.random() * 100));
         return id;
+    }
+
+    @Testpointcut
+    public void testAOP() {
+        System.out.println("test aop");
     }
 
     @Override
